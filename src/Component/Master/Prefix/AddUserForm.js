@@ -5,8 +5,8 @@ const AddUserForm = props => {
     // const initialFormState = { name: "", under_group_name: "" };
     const [user, setUser] = useState(
         {
-            form_name: "",
-            department:"",
+            form_id: "",
+            department_id:"",
             prefix: ""
         }
     );
@@ -42,9 +42,9 @@ const AddUserForm = props => {
 
     const selectHandleInputChange = event => {
         setDep2(event.target.value);
-        const { name, value, id } = event.target;
-        setUser({ ...user, [name]: value, [id]: id });
-        // window.location.reload(id);
+        const { name, value,  } = event.target;
+        setUser({ ...user, [name]: value,  });
+    
     };
 
     const handleInputChange = event => {
@@ -57,7 +57,7 @@ const AddUserForm = props => {
         <form
             onSubmit={event => {
                 event.preventDefault();
-                if (!user.form_name || !user.department || !user.prefix) return;
+                if (!user.form_id || !user.department_id || !user.prefix) return;
                     axios.post('https://uditsolutions.in/vinrajbackend/public/api/prefixs',user)
                     .then(()=>{
                         console.log("swal")
@@ -84,18 +84,18 @@ const AddUserForm = props => {
                 <div className="form-group col-md-3">
                 <label htmlFor="inputPassword4"> Form name </label>
                
-                <select type="text" className="form-control" id="inputPassword4" name="department_id" value={department.id} onChange={handleInputChange} >
+                <select type="text" className="form-control" id="inputPassword4" name="form_id" value={form.id} onChange={handleInputChange} >
                     {
                     
                          form.map((form) => {
-                             if(dep2 == form.department_id ) {
+                             if(dep2 === form.department_id ) {
                                  
                                 //  console.log("Dep2", dep2);
                                 //  console.log("department value", form.department_id);
                                
                                 return (<option key={form.id}   value={form.id}>{form.name}</option>)
                              }
-                             
+                         return (<div></div>)    
                     })}
                     
                 {/* {form.map((form) => <option key={form.id}  value={form.id}>{form.name}</option>)} */}

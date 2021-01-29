@@ -1,30 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserTable from './Table'
 import AddUserForm from "./AddUserForm";
+import axios from "axios";
 // import EditUserForm from "./EditUserForm";
 
 const GrpHook = () => {
-    const usersData = [
-        {
-            form_name: "", deparment: "",
-            prefix: ""
-
-        },
-
-    ];
+    
 
 
-    const [users, setUsers] = useState(usersData);
+    const [user, SetUser] = useState([])
+    useEffect(() => {
+        axios.get("https://uditsolutions.in/vinrajbackend/public/api/prefixs")
+            .then(
+                res => {
+                    console.log(res.data, 'res');
+                    SetUser(res.data)
+                })
+
+            .catch(
+                error => console.log(error)
+            ) 
+        
+    }, [])
 
 
-    const addUser = user => {
-        // user.id = users.length + 1;
-        setUsers([...users, user]);
-    };
+    // const addUser = user => {
+    //     // user.id = users.length + 1;
+    //     setUsers([...users, user]);
+    // };
 
-    const deleteUser = id => {
-        setUsers(users.filter(user => user.id !== id));
-    };
+    // const deleteUser = id => {
+    //     setUsers(users.filter(user => user.id !== id));
+    // };
 
 
     const [editing, setEditing] = useState(false);
@@ -33,16 +40,27 @@ const GrpHook = () => {
     const [currentUser, setCurrentUser] = useState(initialFormState);
 
 
-    const editRow = user => {
+    const editRow = () => {
+
+        axios.get("https://uditsolutions.in/vinrajbackend/public/api/prefixs")
+        .then(
+            res => {
+                console.log(res.data, 'res');
+                SetUser(res.data)
+            })
+
+        .catch(
+            error => console.log(error)
+        ) 
         setEditing(true);
         setCurrentUser({ id: user.id, name: user.name, username: user.username });
     };
 
 
-    const updateUser = (id, updateUser) => {
-        setEditing(false);
-        setUsers(users.map(user => (user.id === id ? updateUser : user)));
-    };
+    // const updateUser = (id, updateUser) => {
+    //     setEditing(false);
+    //     setUsers(users.map(user => (user.id === id ? updateUser : user)));
+    // };
 
 
 
@@ -65,13 +83,13 @@ const GrpHook = () => {
                     ) : (
                             <div>
 
-                                <AddUserForm usersData={usersData} />
+                                <AddUserForm  />
                             </div>
                         )}
                 </div>
                 <div className="flex-large">
                     {/* <h2>View users</h2> */}
-                    <UserTable users={users} deleteUser={deleteUser} editRow={editRow} />
+                    <UserTable user={user} editRow={editRow} />
                 </div>
             </div>
         </div>

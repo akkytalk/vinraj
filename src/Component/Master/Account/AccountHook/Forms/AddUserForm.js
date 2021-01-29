@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios'
 import swal from 'sweetalert';
 import Form from 'react-bootstrap/Form';
@@ -12,6 +12,19 @@ const AddUserForm = props => {
         }
     );
 
+    const [accountGroups, SetAccountGroups] = useState([])
+    useEffect(() => {
+        axios.get("https://uditsolutions.in/vinrajbackend/public/api/accountGroups")
+            .then(
+                res => {
+                    console.log(res.data, 'department res');
+                    SetAccountGroups(res.data)
+                })
+
+            .catch(
+                error => console.log(error)
+            )
+    }, [])
     const handleInputChange = event => {
         const { name, value } = event.target;
         setUser({ ...user, [name]: value });
@@ -48,14 +61,15 @@ const AddUserForm = props => {
                     <label htmlFor="inputPassword4">Under Account Group</label>
                     <input type="text" className="form-control" id="inputPassword4" placeholder="" value={user.account_group_name} name="account_group_name" onChange={handleInputChange} />
                 </div> */}
-                  <Form.Group controlId="exampleForm.ControlSelect1"  className="form-group col-md-4" >
-                    <Form.Label>Under Account Group</Form.Label>
-                    <Form.Control as="select">
-                    <option>under account group</option>
-                    <option>u a/c</option>
-                    <option>solutions</option>
-                    </Form.Control>
-                  </Form.Group>
+
+                <div className="form-group col-md-4">
+                    <label htmlFor="inputPassword4">Under Account Group </label>
+                    <select id="inputPassword4" type="text" value={user.account_group_name}  name="account_group_name"  className="form-control" onChange={handleInputChange} >
+                  {accountGroups.map((acc) => <option key={acc.id} value={acc.name}>{acc.name}</option>)}
+                    
+                  </select>
+                </div>
+                  
                  <div className="form-group col-md-4 mt-4">
                  <button className="btn btn-primary " type="submit" >Add</button>
                 </div>   

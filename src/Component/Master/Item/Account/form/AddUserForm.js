@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios'
 import swal from 'sweetalert';
 import Form from 'react-bootstrap/Form';
@@ -12,6 +12,20 @@ const AddUserForm = props => {
             under_group_name: ""
         }
     );
+
+    const [item, SetItem] = useState([])
+    useEffect(() => {
+        axios.get("https://uditsolutions.in/vinrajbackend/public/api/itemGroups")
+            .then(
+                res => {
+                    console.log(res.data, 'department res');
+                    SetItem(res.data)
+                })
+
+            .catch(
+                error => console.log(error)
+            )
+    }, [])
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -45,18 +59,14 @@ const AddUserForm = props => {
                     <label htmlFor="inputPassword4"> Item Group </label>
                     <input type="text" className="form-control" id="inputPassword4" placeholder="" value={user.name} name="name" onChange={handleInputChange} />
                 </div>
-                {/* <div className="form-group col-md-4">
-                    <label htmlFor="inputPassword4">Under Item Group</label>
-                    <input type="text" className="form-control" id="inputPassword4" placeholder="" value={user.under_group_name} name="under_group_name" onChange={handleInputChange} />
-                </div> */}
-                <Form.Group controlId="exampleForm.ControlSelect1"  className="form-group col-md-4" >
-                    <Form.Label>Under Item Group</Form.Label>
-                    <Form.Control as="select">
-                    <option>under item group</option>
-                    <option>under test</option>
-                    <option>under</option>
-                    </Form.Control>
-                  </Form.Group>
+                
+                <div className="form-group col-md-4">
+                    <label htmlFor="inputPassword4">Under Item Group </label>
+                    <select id="inputPassword4" type="text" value={user.under_group_name}  name="under_group_name"  className="form-control" onChange={handleInputChange} >
+                  {item.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
+                    
+                  </select>
+                </div>
                  <div className="form-group col-md-4 mt-4">
                  <button className="btn btn-primary " type="submit" >Add</button>
                 </div>   
