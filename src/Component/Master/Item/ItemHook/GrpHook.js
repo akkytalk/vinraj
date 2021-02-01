@@ -1,70 +1,60 @@
 import React, { useState } from "react";
 import UserTable from "./tables/UserTable";
 import AddUserForm from "./form/AddUserForm";
-import EditUserForm from "./form/EditUserForm";
+
+import axios from "axios";
 
 const GrpHookSingle  = () => {
-    const usersData = [
-        { id: 1, name: "AAA", username: "aiueo" },
-        { id: 2, name: "BBB", username: "kakikukeko" },
-        { id: 3, name: "CCC", username: "sasisuseso" }
-    ];
-
-
-    const [users, setUsers] = useState(usersData);
-
-
-    const addUser = user => {
-        user.id = users.length + 1;
-        setUsers([...users, user]);
-    };
-
-    const deleteUser = id => {
-        setUsers(users.filter(user => user.id !== id));
-    };
-
-
     const [editing, setEditing] = useState(false);
-    const initialFormState = { id: null, name: "", username: "" };
 
-    const [currentUser, setCurrentUser] = useState(initialFormState);
+  const initialFormState = {
+    id: "",
+    item_group_id: "",
+    item_group_name: "",
+    unit: "",
+  };
 
+  const [currentUser, setCurrentUser] = useState(initialFormState);
 
-    const editRow = user => {
-        setEditing(true);
-        setCurrentUser({ id: user.id, name: user.name, username: user.username });
-    };
+  async function editRow(id) {
+    axios
+      .get(
+        `https://uditsolutions.in/vinrajbackend/public/api/items/${id}`,
+        currentUser
+      )
+      .then((res) => {
+        console.log(res.data, "editing data res");
+        setEditing(res.data);
+        setCurrentUser({
+          id: res.data.id,
+          item_group_id: res.data.item_group.id,
+          item_group_name: res.data.item_group.name,
+          name: res.data.name,
+        });
+      })
+      .catch((error) => console.log(error));
+  }
 
+  console.log("editing", editing);
+  console.log("Current User", currentUser);
 
-    const updateUser = (id, updateUser) => {
-        setEditing(false);
-        setUsers(users.map(user => (user.id === id ? updateUser : user)));
-    };
-
+    
     return (
         <div className="container">
 
             <div className="flex-row">
                 <div className="flex-large">
-                    {editing ? (
-                        <div>
-                            <EditUserForm
-                                editing={editing}
-                                setEditing={setEditing}
-                                currentUser={currentUser}
-                                updateUser={updateUser}
-                            />
-                        </div>
-                    ) : (
-                            <div>
+                   
 
-                                <AddUserForm addUser={addUser} />
-                            </div>
-                        )}
+                                <AddUserForm currentUser={currentUser}
+                      editing={editing}
+                      setEditing={setEditing}
+                      setCurrentUser={setCurrentUser} />
+                           
                 </div>
                 <div className="flex-large">
-                    {/* <h2>View users</h2> */}
-                    <UserTable users={users} deleteUser={deleteUser} editRow={editRow} />
+                    
+                    <UserTable editRow={editRow} />
                 </div>
             </div>
         </div>

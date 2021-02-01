@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import swal from "sweetalert";
 
 function FormTable(props) {
     const [user, SetUser] = useState([])
@@ -15,6 +16,24 @@ function FormTable(props) {
                 error => console.log(error)
             )
     }, [])
+
+
+    async function deleteUser (id) {
+        
+        
+        axios.delete(`https://uditsolutions.in/vinrajbackend/public/api/forms/${id}`, user)
+        .then(()=>{
+          console.log("swal")
+          swal("Successfully Deleted Form Name!")
+          .then(() => {
+              window.location.reload();
+          })
+      })
+      .catch(
+         error=> console.log(error)
+      )
+      }
+      
     return (
         <table className="table" style={{ fontSize: "12px" }}>
             <thead>
@@ -35,8 +54,18 @@ function FormTable(props) {
                             <td>{user.department ? user.department.name : null}</td>
                             
                             <td>
-                                <i className="fa fa-minus" aria-hidden="true" onClick={() => props.deleteUser(user.id)} ></i>
-                                <i className="fa fa-plus ml-5" aria-hidden="true" onClick={() => props.editRow(user)} ></i>
+                            <button 
+                          onClick={() => props.editRow(user.id)}
+                          > 
+                                <i className="fa fa-edit" aria-hidden="true"  ></i>
+                                </button>
+
+                          <button  className="ml-4 "
+                          onClick={() => deleteUser(user.id)}
+                          >
+                          <i className="fa fa-trash-alt " value={user.id} aria-hidden="true"  ></i>
+                              </button>  
+                             
                             </td>
                         </tr>
                     ))

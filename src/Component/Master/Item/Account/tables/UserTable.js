@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import swal from "sweetalert";
 const UserTable = props => {
 
 
@@ -16,27 +17,55 @@ const UserTable = props => {
                 error => console.log(error)
             )
     }, [])
+
+
+    async function deleteUser (id) {
+        
+        
+        axios.delete(`https://uditsolutions.in/vinrajbackend/public/api/itemGroups/${id}`, user)
+        .then(()=>{
+          console.log("swal")
+          swal("Successfully Deleted Department!")
+          .then(() => {
+              window.location.reload();
+          })
+      })
+      .catch(
+         error=> console.log(error)
+      )
+      }
+
+      
     return (
         <table className="table" style={{ fontSize: "12px" }}>
             <thead>
                 <tr>
-                <th scope="col">ID</th>
+                
                     <th scope="col">Item Group</th>
                     <th scope="col">Under Item Group</th>
-                    {/* <th scope="col">Actions</th> */}
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {user.length > 0 ? (
                     user.map(user => (
                         <tr key={user.id}>
-                            <td>{user.id}</td>
+                            
                             <td>{user.name}</td>
                             <td>{user.under_group_name}</td>
-                            {/* <td>
-                                <i className="fa fa-minus" aria-hidden="true" onClick={() => props.deleteUser(user.id)} ></i>
-                                <i className="fa fa-plus ml-5" aria-hidden="true" onClick={() => props.editRow(user)} ></i>
-                            </td> */}
+                            <td>
+                            <button 
+                          onClick={() => props.editRow(user.id)}
+                          > 
+                                <i className="fa fa-edit" aria-hidden="true"  ></i>
+                                </button>
+
+                          <button  className="ml-4 "
+                          onClick={() => deleteUser(user.id)}
+                          >
+                          <i className="fa fa-trash-alt " value={user.id} aria-hidden="true"  ></i>
+                              </button>  
+                            </td>
                         </tr>
                     ))
                 ) : (

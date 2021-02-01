@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import axios from 'axios'
 import swal from "sweetalert";
 
-import { Button } from "@material-ui/core";
+
+
+
 const UserTable = props => {
 
 
-    const [user, SetUser] = useState([])
+
+    const [user, SetUser] = useState([]);
     useEffect(() => {
         axios.get("https://uditsolutions.in/vinrajbackend/public/api/prefixs")
             .then(
@@ -21,17 +24,13 @@ const UserTable = props => {
         
     }, [])
 
+
   
-
-        
-        
-    
-
-
-    
 
 
     async function deleteUser (id) {
+        
+        
       axios.delete(`https://uditsolutions.in/vinrajbackend/public/api/prefixs/${id}`, user)
       .then(()=>{
         console.log("swal")
@@ -45,18 +44,11 @@ const UserTable = props => {
     )
     }
 
-    async function editRow (id) {
-        axios.get(`https://uditsolutions.in/vinrajbackend/public/api/prefixs/${id}`, )
-        .then(()=>{
-          console.log("user data in form table", id)
-         
-      })
-      .catch(
-         error=> console.log(error)
-      )
-      }
+   
 
     return (
+        <Fragment>
+           
         <table className="table" style={{ fontSize: "12px" }}>
             <thead>
                 <tr>
@@ -77,7 +69,7 @@ const UserTable = props => {
                             <td>{user.prefix}</td>
                             <td>
                             <button 
-                          onClick={() => editRow(user.id)}
+                          onClick={() => props.editRow(user.id)}
                           > 
                                 <i className="fa fa-edit" aria-hidden="true"  ></i>
                                 </button>
@@ -97,7 +89,12 @@ const UserTable = props => {
                         </tr>
                     )}
             </tbody>
+            
         </table>
+
+        
+            
+        </Fragment>
     );
 }
 export default UserTable;

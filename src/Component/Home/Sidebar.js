@@ -37,7 +37,7 @@ const Sidebar = () => {
     axios
       .get("https://uditsolutions.in/vinrajbackend/public/api/departments")
       .then((res) => {
-        console.log(res.data, "department res");
+     //   console.log(res.data, "department res");
         SetDepartment(res.data);
         setLoading(false);
       })
@@ -49,7 +49,7 @@ const Sidebar = () => {
     axios
       .get("https://uditsolutions.in/vinrajbackend/public/api/forms")
       .then((res) => {
-        console.log(res.data, "department res");
+      //  console.log(res.data, "department res");
         setForm(res.data);
       })
 
