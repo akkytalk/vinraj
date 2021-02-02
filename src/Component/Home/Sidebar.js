@@ -10,25 +10,21 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    
+
     "& > * + *": {
       marginLeft: theme.spacing(2),
-      
     },
-    
   },
 
-  CircularProgress : {
+  CircularProgress: {
     color: "white !important",
-    animationDirection: "2s !important"
+    animationDirection: "2s !important",
   },
-
-  
 }));
 
 const Sidebar = () => {
-    const classes = useStyles();
-    const [progress, setProgress] = useState(0);
+  const classes = useStyles();
+  const [progress, setProgress] = useState(0);
 
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState([]);
@@ -37,7 +33,7 @@ const Sidebar = () => {
     axios
       .get("https://uditsolutions.in/vinrajbackend/public/api/departments")
       .then((res) => {
-     //   console.log(res.data, "department res");
+        //   console.log(res.data, "department res");
         SetDepartment(res.data);
         setLoading(false);
       })
@@ -49,7 +45,7 @@ const Sidebar = () => {
     axios
       .get("https://uditsolutions.in/vinrajbackend/public/api/forms")
       .then((res) => {
-      //  console.log(res.data, "department res");
+        //  console.log(res.data, "department res");
         setForm(res.data);
       })
 
@@ -58,7 +54,9 @@ const Sidebar = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 10
+      );
     }, 200);
 
     return () => {
@@ -159,7 +157,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link to="/acc" className="nav-link">
-                          <p>Account</p>
+                          <p>Account Name</p>
                         </Link>
                       </li>
                     </ul>
@@ -176,7 +174,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link to="/item" className="nav-link">
-                          <p>Single Item</p>
+                          <p>Item Name</p>
                         </Link>
                       </li>
                     </ul>
@@ -192,8 +190,11 @@ const Sidebar = () => {
 
               {loading ? (
                 <div className={classes.root}>
-                  <CircularProgress variant="determinate" className={classes.CircularProgress} value={progress} />
-                  
+                  <CircularProgress
+                    variant="determinate"
+                    className={classes.CircularProgress}
+                    value={progress}
+                  />
                 </div>
               ) : (
                 department.map((dep, index) => (

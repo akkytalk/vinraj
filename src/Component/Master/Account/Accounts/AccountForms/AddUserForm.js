@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 
 const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
   // const initialFormState = { name: "", under_group_name: "" };
   const [user, setUser] = useState({
-    
     account_group_id: "",
     name: "",
   });
@@ -85,7 +84,7 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
             placeholder=""
             value={editing ? currentUser.name : user.name}
             name="name"
-            onChange={editing? currentUserInputChange : handleInputChange}
+            onChange={editing ? currentUserInputChange : handleInputChange}
           />
         </div>
 
@@ -94,14 +93,14 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
           <select
             id="inputPassword4"
             type="text"
-            value={ editing? currentUser.table : accountGroups}
+            value={editing ? currentUser.table : accountGroups}
             name="account_group_id"
             className="form-control"
-            onChange={editing? currentUserInputChange : handleInputChange}
+            onChange={editing ? currentUserInputChange : handleInputChange}
           >
-           
-            { 
-           accountGroups?.map((acc) => (
+            {" "}
+            <option>select</option> &&
+            {accountGroups?.map((acc) => (
               <option key={acc.id} value={acc.name}>
                 {acc.name}
               </option>
@@ -110,7 +109,7 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
         </div>
 
         <div className="form-group col-md-4 mt-4">
-        {!editing || !currentUser ? (
+          {!editing || !currentUser ? (
             <button className="btn btn-primary " type="submit">
               Add
             </button>

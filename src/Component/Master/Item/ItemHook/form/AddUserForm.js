@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 
 const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
   // const initialFormState = { name: "", under_group_name: "" };
@@ -78,7 +78,7 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
             className="form-control"
             id="inputPassword4"
             placeholder=""
-            value={editing? currentUser.name : item.name}
+            value={editing ? currentUser.name : item.name}
             name="name"
             onChange={handleInputChange}
           />
@@ -94,6 +94,7 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
             className="form-control"
             onChange={handleInputChange}
           >
+            <option>select</option> &&
             {items.map((item) => (
               <option key={item.id} value={item.name}>
                 {item.name}
@@ -114,7 +115,7 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
           />
         </div>
         <div className="form-group col-md-3 mt-4">
-        {!editing || !currentUser ? (
+          {!editing || !currentUser ? (
             <button className="btn btn-primary " type="submit">
               Add
             </button>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 
 const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
   const [user, setUser] = useState({
@@ -82,41 +82,41 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
             placeholder=""
             value={editing ? currentUser.name : user.name}
             name="name"
-            onChange={editing? currentUserInputChange : handleInputChange}
+            onChange={editing ? currentUserInputChange : handleInputChange}
           />
         </div>
 
         <div className="form-group col-md-4">
-          <label htmlFor="inputPassword4">Under account group </label>
+          <label htmlFor="inputPassword4">Under Account Group </label>
           <select
             id="inputPassword4"
             type="text"
-            value={ editing ? currentUser.aakash : user.under_group_name}
+            value={editing ? currentUser.aakash : user.under_group_name}
             name="under_group_name"
             className="form-control"
-            onChange={editing? currentUserInputChange : handleInputChange}
+            onChange={editing ? currentUserInputChange : handleInputChange}
           >
-            { !editing ? accountGroups.map((acc) => (
-              <option key={acc.id} value={acc.name}>
-                {acc.name}
-              </option>
-            ))
-        :
-         currentUser ?
-        <option>{currentUser.aakash}</option>
-        &&
-        accountGroups.map((acc) => (
-            <option key={acc.id} value={acc.name}>
-              {acc.name}
-            </option>
-          ))
-         : null
-        }
+            {" "}
+            <option>select</option> &&
+            {!editing
+              ? accountGroups.map((acc) => (
+                  <option key={acc.id} value={acc.name}>
+                    {acc.name}
+                  </option>
+                ))
+              : currentUser
+              ? <option>{currentUser.aakash}</option> &&
+                accountGroups.map((acc) => (
+                  <option key={acc.id} value={acc.name}>
+                    {acc.name}
+                  </option>
+                ))
+              : null}
           </select>
         </div>
 
         <div className="form-group col-md-4 mt-4">
-        {!editing || !currentUser ? (
+          {!editing || !currentUser ? (
             <button className="btn btn-primary " type="submit">
               Add
             </button>

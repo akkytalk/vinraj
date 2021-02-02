@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 
 const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
   // const initialFormState = { name: "", under_group_name: "" };
@@ -91,11 +91,13 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
           <select
             id="inputPassword4"
             type="text"
-            value={editing? currentUser.item : user.under_group_name}
+            value={editing ? currentUser.item : user.under_group_name}
             name="under_group_name"
             className="form-control"
             onChange={editing ? currentUserInputChange : handleInputChange}
           >
+            {" "}
+            <option>select</option> &&
             {item.map((item) => (
               <option key={item.id} value={item.name}>
                 {item.name}

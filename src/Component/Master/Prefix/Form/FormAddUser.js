@@ -79,6 +79,7 @@ function FormAddUser({ currentUser, editing, setEditing, setCurrentUser }) {
             value={editing ? currentUser.department_id : department.id}
             onChange={editing ? currentUserInputChange : handleInputChange}
           >
+            <option>select</option> &&
             {!editing
               ? department?.map((dep) => (
                   <option key={dep.id} value={dep.id}>

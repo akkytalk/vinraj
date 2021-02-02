@@ -11,7 +11,7 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
   const [form, setForm] = useState([]);
   const [department, SetDepartment] = useState([]);
   const [dep2, setDep2] = useState([]);
-  
+
   useEffect(() => {
     axios
       .get("https://uditsolutions.in/vinrajbackend/public/api/forms")
@@ -19,7 +19,7 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
         console.log(res.data, "department res");
         setForm(res.data);
       })
- 
+
       .catch((error) => console.log(error));
   }, []);
 
@@ -40,49 +40,41 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
     setUser({ ...user, [name]: value });
   };
 
-  
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
 
   const currentUserInputChange = (event) => {
-    
     const { name, value } = event.target;
     setCurrentUser({ ...currentUser, [name]: value });
   };
 
-
   async function updateEditedRow(id) {
     setEditing(false);
-    
-    axios.put(`https://uditsolutions.in/vinrajbackend/public/api/prefixs/${id}`, currentUser)
-    .then(()=>{
-        console.log("swal")
-        swal("Successfully Updated Prefix!")
-        .then(() => {
-            window.location.reload();
-        })
-    })
-    .catch(
-       error=> {
-           console.log(error);
-        
-    }
-       
-    )
+
+    axios
+      .put(
+        `https://uditsolutions.in/vinrajbackend/public/api/prefixs/${id}`,
+        currentUser
+      )
+      .then(() => {
+        console.log("swal");
+        swal("Successfully Updated Prefix!").then(() => {
+          window.location.reload();
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
-
-
   console.log("sagar", user);
-  
+
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-       
 
         if (!user.form_id || !user.department_id || !user.prefix) return;
         axios
@@ -93,7 +85,7 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
           .then(() => {
             console.log("swal");
             swal("Successfully Created Prefix!").then(() => {
-                setEditing(false);
+              setEditing(false);
               window.location.reload();
             });
           })
@@ -110,26 +102,27 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
             className="form-control"
             id="inputPassword4"
             name="department_id"
-            value={editing? currentUser.department_id : department.id}
-            onChange={editing ? currentUserInputChange : selectHandleInputChange}
+            value={editing ? currentUser.department_id : department.id}
+            onChange={
+              editing ? currentUserInputChange : selectHandleInputChange
+            }
           >
-            {
-            !editing ? (
-              department?.map((dep) => (
-                <option key={dep.id} value={dep.id}>
-                  {dep.name}
-                </option>
-              ))
-            ) : currentUser ? (
-              <option>{currentUser.department_name}</option> 
-              &&
-              department?.map((dep) => (
-                <option key={dep.id} value={dep.id}>
-                  {dep.name}
-                </option>
-              ))
-              
-            ) : null}
+            {" "}
+            <option>select</option> &&
+            {!editing
+              ? department?.map((dep) => (
+                  <option key={dep.id} value={dep.id}>
+                    {dep.name}
+                  </option>
+                ))
+              : currentUser
+              ? <option>{currentUser.department_name}</option> &&
+                department?.map((dep) => (
+                  <option key={dep.id} value={dep.id}>
+                    {dep.name}
+                  </option>
+                ))
+              : null}
           </select>
         </div>
 
@@ -141,58 +134,55 @@ const AddUserForm = ({ currentUser, editing, setEditing, setCurrentUser }) => {
             className="form-control"
             id="inputPassword4"
             name="form_id"
-            value={editing? currentUser.form_id : form.id}
+            value={editing ? currentUser.form_id : form.id}
             onChange={editing ? currentUserInputChange : handleInputChange}
           >
-            {!editing ? (
-              form?.map((form) => {
-                if (dep2 === form.department_id) {
-                  //  console.log("Dep2", dep2);
-                  //  console.log("department value", form.department_id);
+            {" "}
+            <option>select</option> &&
+            {!editing
+              ? form?.map((form) => {
+                  if (dep2 === form.department_id) {
+                    //  console.log("Dep2", dep2);
+                    //  console.log("department value", form.department_id);
 
-                  return (
-                    <option key={form.id} value={form.id}>
-                      {form.name}
-                    </option>
-                  );
-                }
-                return <div></div>;
-              })
-            ) : currentUser ? (
-              <option>{currentUser.form_name}</option>
-                &&
-              form?.map((form) => {
-                if (currentUser.department_id === form.department_id) {
-                   console.log("Dep2", dep2);
-                   console.log("department value", form.department_id);
+                    return (
+                      <option key={form.id} value={form.id}>
+                        {form.name}
+                      </option>
+                    );
+                  }
+                  return <div></div>;
+                })
+              : currentUser
+              ? <option>{currentUser.form_name}</option> &&
+                form?.map((form) => {
+                  if (currentUser.department_id === form.department_id) {
+                    console.log("Dep2", dep2);
+                    console.log("department value", form.department_id);
 
-                  return (
-                    <option key={form.id} value={form.id}>
-                      {form.name}
-                    </option>
-                  );
-               }
-               return <div></div>;
-              })
-
-            ) : null}
-
+                    return (
+                      <option key={form.id} value={form.id}>
+                        {form.name}
+                      </option>
+                    );
+                  }
+                  return <div></div>;
+                })
+              : null}
             {/* {form.map((form) => <option key={form.id}  value={form.id}>{form.name}</option>)} */}
           </select>
         </div>
 
         <div className="form-group col-md-3">
-          <label htmlFor="inputPassword4">prefix</label>
+          <label htmlFor="inputPassword4">Prefix</label>
           <input
             type="text"
             className="form-control"
             id="inputPassword4"
             placeholder=""
-            value={
-              !editing ? user.prefix :  currentUser.prefix 
-            }
+            value={!editing ? user.prefix : currentUser.prefix}
             name="prefix"
-            onChange={ editing ? currentUserInputChange : handleInputChange} 
+            onChange={editing ? currentUserInputChange : handleInputChange}
           />
         </div>
 
